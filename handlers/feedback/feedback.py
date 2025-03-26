@@ -78,9 +78,11 @@ async def process_forward(clb: CallbackQuery) -> None:
     logging.info(f'forward = {forward} --- back = {back}')
     list_events: list = []
     for event in await rq.get_events(): # какие есть мероприятия в таблице Event, если она пустая, то перевод в режим ожидания ввода названия
-        key = event.id
-        value = event.title_event
-        list_events.append([value, f'{key}!feedback_event'])
+        if event.title_event:
+            key = event.id
+            value = event.title_event
+            list_events.append([value, f'{key}!feedback_event'])
+    logging.info(f'list_events = {list_events}')
 
     keyboard = kb.create_kb_pagination(
                     list_button=list_events,
@@ -117,9 +119,11 @@ async def process_forward(clb: CallbackQuery) -> None:
 
     list_events: list = []
     for event in await rq.get_events(): # какие есть мероприятия в таблице Event, если она пустая, то перевод в режим ожидания ввода названия
-        key = event.id
-        value = event.title_event
-        list_events.append([value, f'{key}!feedback_event'])
+        if event.title_event:
+            key = event.id
+            value = event.title_event
+            list_events.append([value, f'{key}!feedback_event'])
+    logging.info(f'list_events = {list_events}')
 
     keyboard = kb.create_kb_pagination(
                     list_button=list_events,
