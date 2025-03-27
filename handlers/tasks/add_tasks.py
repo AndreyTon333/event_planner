@@ -166,7 +166,8 @@ async def process_add_task_deadline(message: Message, state: FSMContext, bot: Bo
         await message.answer(text=f'Некорректно указан дедлайн. Пришлите дедлайн для задачи'
                                   f' {dict_state["title_new_task"]}. Формат записи: чч:мм дд.мм.гггг',
                              reply_markup=keyboard)
-    logging.info(f'dict_task = {dict_task} --- dict_state = {dict_state}')
+    #logging.info(f'dict_task = {dict_task} --- dict_state = {dict_state}')
+
 
 
 @router.callback_query(F.data == 'write_as_mark')
