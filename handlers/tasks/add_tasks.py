@@ -220,6 +220,7 @@ async def process_scheduler_send_task(bot: Bot):
     #date_format = '%d-%m-%Y'  #'%Y.%m.%d %H:%M:%S.%f'    Формат записи: чч:мм дд.мм.гггг',
     list_tasks: list = []
     for task in data_task:
+        logging.info(f'{task.title_task} {task.id_event}    {task.deadline_task}    {task.status_task}')
         if task.deadline_task != 'note' and task.status_task == 'active':
             time_, date_ = task.deadline_task.split(' ')
             hour, minutes = time_.split(':')
@@ -228,10 +229,11 @@ async def process_scheduler_send_task(bot: Bot):
             date_time = datetime.strptime(format_str_date_time, '%Y.%m.%d %H:%M:%S.%f')
             delta_deadline = date_time - time_now
             await asyncio.sleep(1)
+            logging.info(f'до проверки на условие --- days = {delta_deadline.days} {date_time} - {time_now} = {date_time - time_now} {delta_deadline.seconds}')
             #if 82800 < delta_deadline.seconds <= 86400:
             #if 86360 < delta_deadline.seconds <= 86400:
-            if 0<=delta_deadline.days<1 and delta_deadline.seconds>86360:
-                logging.info(f'{date_time} - {time_now} = {date_time - time_now} {delta_deadline.seconds}')
+            if delta_deadline.days==0 and delta_deadline.seconds>86360:
+                logging.info(f'после проверки на условие {date_time} - {time_now} = {date_time - time_now} {delta_deadline.seconds}')
                 await bot.send_message(
                         chat_id=task.tg_id,
                         text=f'До назначенного вами срока выполнения задачи <b>"{task.title_task}"</b>, '
